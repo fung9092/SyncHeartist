@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" rx="20" fill="#ffcae1" />
+  
+  <!-- Back Left Window (Rotated Left) -->
+  <g transform="translate(32, 52) rotate(-15) translate(-20, -25)">
+    <rect width="40" height="50" rx="4" fill="#ffffff" stroke="#ff8ebc" stroke-width="2" />
+    <path d="M0,12 L40,12" stroke="#ff8ebc" stroke-width="2" />
+    <circle cx="8" cy="6" r="2" fill="#ffcae1" />
+    <circle cx="14" cy="6" r="2" fill="#ffcae1" />
+    <circle cx="20" cy="6" r="2" fill="#ffcae1" />
+    <text x="20" y="33" font-size="20" text-anchor="middle" dominant-baseline="central">✨</text>
+  </g>
+
+  <!-- Back Right Window (Rotated Right) -->
+  <g transform="translate(68, 52) rotate(15) translate(-20, -25)">
+    <rect width="40" height="50" rx="4" fill="#ffffff" stroke="#ff8ebc" stroke-width="2" />
+    <path d="M0,12 L40,12" stroke="#ff8ebc" stroke-width="2" />
+    <circle cx="8" cy="6" r="2" fill="#ffcae1" />
+    <circle cx="14" cy="6" r="2" fill="#ffcae1" />
+    <circle cx="20" cy="6" r="2" fill="#ffcae1" />
+    <text x="20" y="33" font-size="20" text-anchor="middle" dominant-baseline="central">🎉</text>
+  </g>
+
+  <!-- Front Center Window -->
+  <g transform="translate(50, 55) translate(-22, -28)">
+    <rect width="44" height="56" rx="4" fill="#ffffff" stroke="#ff8ebc" stroke-width="2" />
+    <path d="M0,14 L44,14" stroke="#ff8ebc" stroke-width="2" />
+    <circle cx="8" cy="7" r="2.5" fill="#ffcae1" />
+    <circle cx="15" cy="7" r="2.5" fill="#ffcae1" />
+    <circle cx="22" cy="7" r="2.5" fill="#ffcae1" />
+    <text x="22" y="37" font-size="24" text-anchor="middle" dominant-baseline="central">💖</text>
+  </g>
+</svg>

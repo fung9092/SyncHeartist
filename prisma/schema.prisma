@@ -1,0 +1,82 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id             String    @id @default(uuid())
+  email          String    @unique
+  passwordHash   String
+  displayName    String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  wallet         CreditWallet?
+  transactions   CreditTransaction[]
+  generationJobs GenerationJob[]
+  paymentOrders  PaymentOrder[]
+}
+
+model CreditWallet {
+  id        String   @id @default(uuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  balance   Int      @default(0)
+  updatedAt DateTime @updatedAt
+}
+
+model CreditTransaction {
+  id            String   @id @default(uuid())
+  userId        String
+  user          User     @relation(fields: [userId], references: [id])
+  type          String   // "signup_bonus", "purchase", "reserve", "deduct", "refund"
+  amount        Int
+  status        String   // "pending", "completed", "failed"
+  referenceType String   // "generation", "payment", "system"
+  referenceId   String?
+  metaJson      String?  // JSON string
+  createdAt     DateTime @default(now())
+}
+
+model GenerationJob {
+  id                  String   @id @default(uuid())
+  userId              String
+  user                User     @relation(fields: [userId], references: [id])
+  status              String   // "queued", "processing", "succeeded", "failed"
+  
+  imageInputUrl       String?  // Since we use Base64 for the prototype, this could be null or store path
+  festivalKey         String
+  festivalCustom      String?
+  styleCategory       String   // "character_transform", "art_illustration"
+  styleKey            String
+  decorationsJson     String   // JSON string array
+  blessingText        String
+  extraPrompt         String?
+  finalPromptText     String?
+  
+  estimatedCreditCost Int
+  actualCreditCost    Int?
+  errorMessage        String?
+  shareLink           String?  // Link to the generated result
+  
+  startedAt           DateTime?
+  finishedAt          DateTime?
+  createdAt           DateTime @default(now())
+}
+
+model PaymentOrder {
+  id                       String   @id @default(uuid())
+  userId                   String
+  user                     User     @relation(fields: [userId], references: [id])
+  stripeCheckoutSessionId  String   @unique
+  stripePaymentIntentId    String?
+  amountHkd                Int
+  creditsToGrant           Int
+  status                   String   // "created", "paid", "failed", "expired"
+  createdAt                DateTime @default(now())
+  paidAt                   DateTime?
+}
