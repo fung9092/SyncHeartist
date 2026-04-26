@@ -1,0 +1,92 @@
+
+> syncheartist@0.1.0 dev
+> next dev -p 3000
+
+   ▲ Next.js 15.3.2
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.148:3000
+   - Environments: .env
+
+ ✓ Starting...
+ ✓ Ready in 1111ms
+ ✓ Compiled /api/generate in 463ms (367 modules)
+Generation Error: SyntaxError: Unexpected end of JSON input
+    at JSON.parse (<anonymous>)
+    at async POST (src/app/api/generate/route.ts:10:42)
+   8 |   try {
+   9 |     const prisma = getPrismaClient();
+> 10 |     const { prompt, cost, imageBase64 } = await req.json() as { prompt: string; cost: number; imageBase64: string };
+     |                                          ^
+  11 |
+  12 |     const userId = "mock-user-id"; // MVP: Use mock user
+  13 |
+ POST /api/generate 500 in 755ms
+Failed to upload HTML to R2: AccessDenied: Access Denied
+    at async uploadHtmlToR2 (src/lib/r2.ts:34:2)
+    at async POST (src/app/api/generate/route.ts:142:18)
+  32 |   });
+  33 |
+> 34 |   await r2Client.send(command);
+     |  ^
+  35 |
+  36 |   return `${publicUrl}/${fileKey}`;
+  37 | } {
+  '$fault': 'client',
+  '$retryable': undefined,
+  '$metadata': [Object],
+  Code: 'AccessDenied'
+}
+ POST /api/generate 500 in 20533ms
+ ✓ Compiled in 91ms (88 modules)
+Failed to call OpenRouter API: ReferenceError: Cannot access 'data' before initialization
+    at POST (src/app/api/generate/route.ts:92:66)
+  90 |
+  91 |       if (openRouterRes.ok) {
+> 92 |           console.log("OpenRouter Response Data:", JSON.stringify(data));
+     |                                                                  ^
+  93 |         const data = await openRouterRes.json() as { choices?: { message?: { content?: string } }[] };
+  94 |         if (data.choices && data.choices[0] && data.choices[0].message) {
+  95 |           generatedHtml = data.choices[0].message.content || '';
+Failed to upload HTML to R2: AccessDenied: Access Denied
+    at async uploadHtmlToR2 (src/lib/r2.ts:34:2)
+    at async POST (src/app/api/generate/route.ts:143:18)
+  32 |   });
+  33 |
+> 34 |   await r2Client.send(command);
+     |  ^
+  35 |
+  36 |   return `${publicUrl}/${fileKey}`;
+  37 | } {
+  '$fault': 'client',
+  '$retryable': undefined,
+  '$metadata': [Object],
+  Code: 'AccessDenied'
+}
+ POST /api/generate 500 in 1652ms
+ ✓ Compiled in 97ms (88 modules)
+OpenRouter Response Data: {"id":"gen-1777218362-SjTx8NL3y5YCA2qd3uN4","object":"chat.completion","created":1777218362,"model":"deepseek/deepseek-chat-v3","provider":"Novita","system_fingerprint":null,"choices":[{"index":0,"logprobs":null,"finish_reason":"stop","native_finish_reason":"stop","message":{"role":"assistant","content":"Here's the complete HTML code for the personalized greeting card website based on the provided selections:\n\n<!DOCTYPE html>\n<html lang=\"zh-Hant\">\n<head>\n    <meta charset=\"UTF-8\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    <title>個性化祝福卡片</title>\n    <style>\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n            font-family: 'Microsoft JhengHei', 'Arial', sans-serif;\n        }\n        \n        body {\n            background-color: #f8f3e8;\n            display: flex;\n            justify-content: center;\n            align-items: center;\n            min-height: 100vh;\n            padding: 20px;\n        }\n        \n        .card {\n            width: 100%;\n            max-width: 600px;\n            background: white;\n            border-radius: 15px;\n            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);\n            overflow: hidden;\n            position: relative;\n            transition: transform 0.3s ease;\n        }\n        \n        .card:hover {\n            transform: translateY(-5px);\n        }\n        \n        .card-header {\n            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);\n            color: white;\n            padding: 25px;\n            text-align: center;\n            position: relative;\n        }\n        \n        .card-header h1 {\n            font-size: 28px;\n            margin-bottom: 10px;\n            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);\n        }\n        \n        .card-header::before {\n            content: \"🎉\";\n            position: absolute;\n            top: 10px;\n            left: 10px;\n            font-size: 24px;\n        }\n        \n        .card-header::after {\n            content: \"🎊\";\n            position: absolute;\n            top: 10px;\n            right: 10px;\n            font-size: 24px;\n        }\n        \n        .card-body {\n            padding: 30px;\n            text-align: center;\n        }\n        \n        .blessing {\n            font-size: 22px;\n            line-height: 1.6;\n            color: #333;\n            margin-bottom: 30px;\n            padding: 20px;\n            background-color: #fffdf9;\n            border-radius: 10px;\n            border-left: 5px solid #ff9a9e;\n        }\n        \n        .decoration {\n            margin: 20px 0;\n            display: flex;\n            justify-content: center;\n            flex-wrap: wrap;\n            gap: 15px;\n        }\n        \n        .decoration span {\n            font-size: 30px;\n            animation: float 3s ease-in-out infinite;\n        }\n        \n        @keyframes float {\n            0%, 100% { transform: translateY(0); }\n            50% { transform: translateY(-10px); }\n        }\n        \n        .card-footer {\n            background: #f5f5f5;\n            padding: 20px;\n            text-align: center;\n            font-size: 14px;\n            color: #666;\n        }\n        \n        @media (max-width: 480px) {\n            .card-header h1 {\n                font-size: 22px;\n            }\n            \n            .blessing {\n                font-size: 18px;\n                padding: 15px;\n            }\n            \n            .decoration span {\n                font-size: 24px;\n            }\n        }\n    </style>\n</head>\n<body>\n    <div class=\"card\">\n        <div class=\"card-header\">\n            <h1>Hello from node test</h1>\n        </div>\n        \n        <div class=\"card-body\">\n            <div class=\"blessing\">\n                祝您幸福快樂，心想事成！\n            </div>\n            \n            <div class=\"decoration\">\n                <span>🎀</span>\n                <span>✨</span>\n                <span>🌸</span>\n                <span>💝</span>\n                <span>🎈</span>\n            </div>\n        </div>\n        \n        <div class=\"card-footer\">\n            <p>感謝您使用我們的祝福卡片服務</p>\n        </div>\n    </div>\n</body>\n</html>","refusal":null,"reasoning":null}}],"usage":{"prompt_tokens":197,"completion_tokens":960,"total_tokens":1157,"cost":0.0013268,"is_byok":false,"prompt_tokens_details":{"cached_tokens":0,"cache_write_tokens":0,"audio_tokens":0,"video_tokens":0},"cost_details":{"upstream_inference_cost":0.0013268,"upstream_inference_prompt_cost":0.0000788,"upstream_inference_completions_cost":0.001248},"completion_tokens_details":{"reasoning_tokens":0,"image_tokens":0,"audio_tokens":0}}}
+Failed to upload HTML to R2: AccessDenied: Access Denied
+    at async uploadHtmlToR2 (src/lib/r2.ts:34:2)
+    at async POST (src/app/api/generate/route.ts:143:18)
+  32 |   });
+  33 |
+> 34 |   await r2Client.send(command);
+     |  ^
+  35 |
+  36 |   return `${publicUrl}/${fileKey}`;
+  37 | } {
+  '$fault': 'client',
+  '$retryable': undefined,
+  '$metadata': [Object],
+  Code: 'AccessDenied'
+}
+ POST /api/generate 500 in 29730ms
+ ✓ Compiled in 17ms
+ ⚠ Found a change in next.config.ts. Restarting the server to apply the changes...
+   ▲ Next.js 15.3.2
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.148:3000
+   - Environments: .env
+
+ ✓ Starting...
+ ✓ Ready in 1156ms

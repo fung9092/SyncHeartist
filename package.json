@@ -6,22 +6,28 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "pages:build": "npx @cloudflare/next-on-pages@1",
+    "pages:deploy": "wrangler pages deploy .vercel/output/static",
+    "pages:preview": "wrangler pages dev .vercel/output/static"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1033.0",
+    "@prisma/adapter-d1": "^7.8.0",
     "@prisma/client": "^6.19.3",
     "bcryptjs": "^3.0.3",
     "cookie": "^1.1.1",
     "firebase": "^12.12.1",
     "jsonwebtoken": "^9.0.3",
-    "next": "16.2.4",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
+    "next": "^15.3.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
     "stripe": "^22.0.2",
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@cloudflare/next-on-pages": "^1.13.16",
+    "@cloudflare/workers-types": "^4.20260426.1",
     "@tailwindcss/postcss": "^4",
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie": "^0.6.0",
@@ -33,6 +39,8 @@
     "eslint-config-next": "16.2.4",
     "prisma": "^6.19.3",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vercel": "^47.0.4",
+    "wrangler": "^4.85.0"
   }
 }

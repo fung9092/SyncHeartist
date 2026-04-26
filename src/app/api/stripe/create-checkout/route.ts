@@ -1,18 +1,18 @@
+export const runtime = 'edge';
+
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { PrismaClient } from '@prisma/client';
-
-const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY!, {
-  apiVersion: '2026-03-25.dahlia',
-});
-
-const prisma = new PrismaClient();
+import { getPrismaClient } from '@/lib/prisma';
 
 export async function POST(req: Request) {
   try {
+    const stripe = new Stripe(process.env.STRIPE_PRIVATE_KEY!, {
+      apiVersion: '2026-03-25.dahlia',
+    });
+
+    const prisma = getPrismaClient();
     const { amountHkd, credits } = await req.json();
 
-    // Mock userId for prototype
     const userId = "mock-user-id";
 
     // Ensure user exists in db for prototype
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
             product_data: {
               name: `SyncHeartist ${credits} 點`,
             },
-            unit_amount: amountHkd * 100, // Stripe expects cents
+            unit_amount: amountHkd * 100,
           },
           quantity: 1,
         },
@@ -53,7 +53,6 @@ export async function POST(req: Request) {
       },
     });
 
-    // Log the order in DB
     await prisma.paymentOrder.create({
       data: {
         userId,

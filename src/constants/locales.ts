@@ -47,8 +47,13 @@ export const locales = {
     alertNoCredits: '點數不足，請先購買點數。',
     alertNoBlessing: '請先輸入想說的話。',
     uploadBtnText: '點擊上傳相片',
+    deletePhoto: '刪除相片',
     authBtnGoogle: '使用 Google 登入',
     authBtnApple: '使用 Apple 登入',
+    popupTitle: '✅ 生成成功！',
+    popupDesc: '你的專屬 HTML 網站已儲存於：',
+    popupPreview: '預覽',
+    popupClose: '關閉',
     dashNotLoggedIn: '請先登入以查看點數與記錄',
     dashBtnLogin: '前往登入'
   },
@@ -100,8 +105,13 @@ export const locales = {
     alertNoCredits: 'Not enough credits. Please buy credits.',
     alertNoBlessing: 'Please enter what you want to say.',
     uploadBtnText: 'Click to Upload Photo',
+    deletePhoto: 'Delete Photo',
     authBtnGoogle: 'Continue with Google',
     authBtnApple: 'Continue with Apple',
+    popupTitle: '✅ Generation Successful!',
+    popupDesc: 'Your exclusive HTML website is saved at:',
+    popupPreview: 'Preview',
+    popupClose: 'Close',
     dashNotLoggedIn: 'Please log in to view balance & history',
     dashBtnLogin: 'Go to Login'
   }

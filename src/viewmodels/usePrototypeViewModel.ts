@@ -24,6 +24,8 @@ export function usePrototypeViewModel() {
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [isGenerating, setIsGenerating] = useState(false)
   const [history, setHistory] = useState<HistoryItem[]>([])
+  const [generatedShareLink, setGeneratedShareLink] = useState('')
+  const [isPopupOpen, setIsPopupOpen] = useState(false)
   
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -105,10 +107,10 @@ export function usePrototypeViewModel() {
     setDecorations(nextDecorations.slice(0, 2))
   }
 
-  function handleStyleCategoryChange(nextCategory: StyleCategory) {
+  function handleStyleCategoryChange(nextCategory: StyleCategory, defaultStyle?: string) {
     setStyleCategory(nextCategory)
     setStyleName(
-      nextCategory === 'character_transform' ? CHARACTER_STYLES[0] : ART_STYLES[0],
+      defaultStyle || (nextCategory === 'character_transform' ? CHARACTER_STYLES[0] : ART_STYLES[0])
     )
   }
 
@@ -204,9 +206,11 @@ export function usePrototypeViewModel() {
       }
       setHistory((prev) => [item, ...prev])
       setCredits((prev) => prev - estimatedCost)
-      setActivePage('history')
-    } catch (err: any) {
-      alert((language === 'zh' ? '生成失敗：' : 'Generation failed: ') + err.message);
+      setGeneratedShareLink(data.shareLink)
+      setIsPopupOpen(true)
+    } catch (err: unknown) {
+      const errMsg = err instanceof Error ? err.message : 'Unknown error';
+      alert((language === 'zh' ? '生成失敗：' : 'Generation failed: ') + errMsg);
     } finally {
       setIsGenerating(false)
     }
@@ -237,11 +241,16 @@ export function usePrototypeViewModel() {
     setImageFile,
     isGenerating,
     history,
+    generatedShareLink,
+    setGeneratedShareLink,
+    isPopupOpen,
+    setIsPopupOpen,
     isMenuOpen,
     setIsMenuOpen,
     language,
     setLanguage,
-    styleOptions,
+    styleOptionsChar: CHARACTER_STYLES,
+    styleOptionsArt: ART_STYLES,
     suggestedDecorations,
     estimatedCost,
     generatedPrompt,

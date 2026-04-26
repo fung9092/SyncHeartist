@@ -48,7 +48,12 @@ export async function uploadImageToR2(imageBase64: string, fileKey: string): Pro
   const match = imageBase64.match(/^data:(image\/\w+);base64,/);
   const contentType = match ? match[1] : 'image/jpeg';
   const base64Data = imageBase64.replace(/^data:image\/\w+;base64,/, "");
-  const buffer = Buffer.from(base64Data, 'base64');
+  // Edge-compatible base64 decode (no Node.js Buffer)
+  const binaryString = atob(base64Data);
+  const buffer = new Uint8Array(binaryString.length);
+  for (let i = 0; i < binaryString.length; i++) {
+    buffer[i] = binaryString.charCodeAt(i);
+  }
 
   const command = new PutObjectCommand({
     Bucket: bucketName,

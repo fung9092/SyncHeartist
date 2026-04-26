@@ -112,14 +112,17 @@ export default function Home() {
             <legend>{t.createPhoto}</legend>
             <label className="uploadArea">
               <input
+                key={vm.imageFile ? vm.imageFile.name : 'empty'}
                 type="file"
                 accept="image/*"
                 capture="environment"
                 className="hiddenFileInput"
                 onChange={(event) => {
                   const file = event.target.files?.[0];
-                  vm.setImageFileName(file?.name ?? t.createPhotoUnselected);
-                  vm.setImageFile(file || null);
+                  if (file) {
+                    vm.setImageFileName(file.name);
+                    vm.setImageFile(file);
+                  }
                 }}
               />
               <div className="uploadContent">
@@ -128,9 +131,24 @@ export default function Home() {
                   <polyline points="17 8 12 3 7 8"></polyline>
                   <line x1="12" y1="3" x2="12" y2="15"></line>
                 </svg>
-                <span>{vm.imageFileName === '未選擇檔案' || vm.imageFileName === 'Not selected' || vm.imageFileName === '未選擇' ? t.uploadBtnText : vm.imageFileName}</span>
+                <span>{vm.imageFile ? vm.imageFileName : t.uploadBtnText}</span>
               </div>
             </label>
+            {vm.imageFile && (
+              <div style={{ marginTop: '12px', textAlign: 'center' }}>
+                <button
+                  type="button"
+                  className="ghost small"
+                  onClick={() => {
+                    vm.setImageFileName(t.createPhotoUnselected);
+                    vm.setImageFile(null);
+                  }}
+                  style={{ color: 'var(--danger-color, #dc3545)' }}
+                >
+                  {t.deletePhoto}
+                </button>
+              </div>
+            )}
           </fieldset>
 
           <fieldset>
@@ -158,29 +176,24 @@ export default function Home() {
 
           <fieldset>
             <legend>{t.createStyle}</legend>
-            <div className="switchRow">
-              <button
-                type="button"
-                className={vm.styleCategory === 'character_transform' ? 'chip active' : 'chip'}
-                onClick={() => vm.handleStyleCategoryChange('character_transform')}
-              >
-                {t.createStyleChar}
-              </button>
-              <button
-                type="button"
-                className={vm.styleCategory === 'art_illustration' ? 'chip active' : 'chip'}
-                onClick={() => vm.handleStyleCategoryChange('art_illustration')}
-              >
-                {t.createStyleArt}
-              </button>
-            </div>
             <select
               value={vm.styleName}
-              onChange={(event) => vm.setStyleName(event.target.value)}
+              onChange={(event) => {
+                const newStyle = event.target.value;
+                const isChar = vm.styleOptionsChar.includes(newStyle);
+                vm.handleStyleCategoryChange(isChar ? 'character_transform' : 'art_illustration', newStyle);
+              }}
             >
-              {vm.styleOptions.map((option) => (
-                <option key={option} value={option}>{option}</option>
-              ))}
+              <optgroup label={t.createStyleChar}>
+                {vm.styleOptionsChar.map((option) => (
+                  <option key={option} value={option}>{option}</option>
+                ))}
+              </optgroup>
+              <optgroup label={t.createStyleArt}>
+                {vm.styleOptionsArt.map((option) => (
+                  <option key={option} value={option}>{option}</option>
+                ))}
+              </optgroup>
             </select>
           </fieldset>
 
@@ -379,6 +392,28 @@ export default function Home() {
               </div>
             </div>
           </nav>
+        </div>
+      )}
+
+      {vm.isPopupOpen && (
+        <div className="menuOverlay" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div className="card center" style={{ margin: '0 20px', maxWidth: '400px', width: '100%', background: '#fff', borderRadius: '24px', padding: '32px 24px', zIndex: 1000, boxShadow: '0 20px 40px rgba(0,0,0,0.2)' }}>
+            <h2 style={{ marginTop: 0 }}>{t.popupTitle}</h2>
+            <p>{t.popupDesc}</p>
+            <p style={{ wordBreak: 'break-all', fontSize: '0.9rem', color: '#b3457f', background: '#fff6fb', padding: '12px', borderRadius: '8px' }}>
+              <a href={vm.generatedShareLink} target="_blank" rel="noopener noreferrer">
+                {vm.generatedShareLink}
+              </a>
+            </p>
+            <div className="ctaRow center" style={{ marginTop: '24px' }}>
+              <a className="button large" href={vm.generatedShareLink} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', background: 'var(--primary-color)', color: '#fff', borderRadius: '99px', padding: '0 24px', height: '48px', fontWeight: 'bold' }}>
+                {t.popupPreview}
+              </a>
+              <button className="ghost large" onClick={() => vm.setIsPopupOpen(false)}>
+                {t.popupClose}
+              </button>
+            </div>
+          </div>
         </div>
       )}
 

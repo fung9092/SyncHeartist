@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
 }
 
 datasource db {
@@ -48,7 +48,7 @@ model GenerationJob {
   user                User     @relation(fields: [userId], references: [id])
   status              String   // "queued", "processing", "succeeded", "failed"
   
-  imageInputUrl       String?  // Since we use Base64 for the prototype, this could be null or store path
+  imageInputUrl       String?
   festivalKey         String
   festivalCustom      String?
   styleCategory       String   // "character_transform", "art_illustration"
@@ -61,7 +61,7 @@ model GenerationJob {
   estimatedCreditCost Int
   actualCreditCost    Int?
   errorMessage        String?
-  shareLink           String?  // Link to the generated result
+  shareLink           String?
   
   startedAt           DateTime?
   finishedAt          DateTime?
