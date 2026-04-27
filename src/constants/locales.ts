@@ -55,7 +55,11 @@ export const locales = {
     popupPreview: '預覽',
     popupClose: '關閉',
     dashNotLoggedIn: '請先登入以查看點數與記錄',
-    dashBtnLogin: '前往登入'
+    dashBtnLogin: '前往登入',
+    draftPopupTitle: '發現未完成的製作',
+    draftPopupDesc: '您上次有未完成的心意卡製作，是否要恢復上次的內容？',
+    draftBtnRestore: '恢復內容',
+    draftBtnDiscard: '重新開始'
   },
   en: {
     heroTitle: 'SyncHeartist',
@@ -113,6 +117,10 @@ export const locales = {
     popupPreview: 'Preview',
     popupClose: 'Close',
     dashNotLoggedIn: 'Please log in to view balance & history',
-    dashBtnLogin: 'Go to Login'
+    dashBtnLogin: 'Go to Login',
+    draftPopupTitle: 'Unfinished Creation Found',
+    draftPopupDesc: 'You have an unfinished creation from last time. Do you want to restore it?',
+    draftBtnRestore: 'Restore',
+    draftBtnDiscard: 'Start Fresh'
   }
 }

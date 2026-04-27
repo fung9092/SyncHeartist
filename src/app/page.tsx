@@ -395,6 +395,23 @@ export default function Home() {
         </div>
       )}
 
+      {vm.isDraftPopupOpen && (
+        <div className="menuOverlay" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div className="card center" style={{ margin: '0 20px', maxWidth: '400px', width: '100%', background: '#fff', borderRadius: '24px', padding: '32px 24px', zIndex: 1000, boxShadow: '0 20px 40px rgba(0,0,0,0.2)' }}>
+            <h2 style={{ marginTop: 0 }}>{t.draftPopupTitle}</h2>
+            <p>{t.draftPopupDesc}</p>
+            <div className="ctaRow center" style={{ marginTop: '24px' }}>
+              <button className="large" onClick={vm.restoreDraft} style={{ background: 'var(--primary-color)' }}>
+                {t.draftBtnRestore}
+              </button>
+              <button className="ghost large" onClick={vm.discardDraft}>
+                {t.draftBtnDiscard}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {vm.isPopupOpen && (
         <div className="menuOverlay" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <div className="card center" style={{ margin: '0 20px', maxWidth: '400px', width: '100%', background: '#fff', borderRadius: '24px', padding: '32px 24px', zIndex: 1000, boxShadow: '0 20px 40px rgba(0,0,0,0.2)' }}>

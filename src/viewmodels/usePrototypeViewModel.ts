@@ -26,6 +26,8 @@ export function usePrototypeViewModel() {
   const [history, setHistory] = useState<HistoryItem[]>([])
   const [generatedShareLink, setGeneratedShareLink] = useState('')
   const [isPopupOpen, setIsPopupOpen] = useState(false)
+  const [isDraftPopupOpen, setIsDraftPopupOpen] = useState(false)
+  const [pendingDraft, setPendingDraft] = useState<any>(null)
   
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -92,13 +94,95 @@ export function usePrototypeViewModel() {
     }
   }, []);
 
+  // Session Timeout (30 mins of inactivity)
+  useEffect(() => {
+    if (!isLoggedIn) return;
+
+    const SESSION_TIMEOUT = 30 * 60 * 1000;
+    let timeoutId: NodeJS.Timeout;
+
+    const resetTimer = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        handleLogout();
+        window.alert(language === 'zh' ? '您已閒置超過30分鐘，為保障安全已自動登出。' : 'You have been automatically logged out due to 30 minutes of inactivity.');
+      }, SESSION_TIMEOUT);
+    };
+
+    const events = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart'];
+    events.forEach(e => window.addEventListener(e, resetTimer));
+
+    resetTimer();
+
+    return () => {
+      clearTimeout(timeoutId);
+      events.forEach(e => window.removeEventListener(e, resetTimer));
+    };
+  }, [isLoggedIn, language]);
+
+  // Save Draft logic
+  useEffect(() => {
+    if (activePage === 'create' && !isDraftPopupOpen && !isGenerating) {
+      const draft = {
+        festival,
+        festivalCustom,
+        styleCategory,
+        styleName,
+        decorations,
+        blessing,
+        extraNote,
+      };
+      localStorage.setItem('syncheartist_draft', JSON.stringify(draft));
+    }
+  }, [activePage, festival, festivalCustom, styleCategory, styleName, decorations, blessing, extraNote, isDraftPopupOpen, isGenerating]);
+
   function setActivePage(page: PageKey) {
-    if (page === 'create' && !isLoggedIn) {
-      // Don't alert here anymore since the CTA button handles the intent
+    if (page !== 'home' && !isLoggedIn) {
       setActivePageRaw('auth');
     } else {
+      if (page === 'create' && activePage !== 'create') {
+        const savedDraft = localStorage.getItem('syncheartist_draft');
+        if (savedDraft) {
+          try {
+            const parsed = JSON.parse(savedDraft);
+            if (parsed && (parsed.blessing || parsed.festivalCustom || parsed.extraNote || (parsed.decorations && parsed.decorations.length > 0))) {
+              setPendingDraft(parsed);
+              setIsDraftPopupOpen(true);
+            }
+          } catch (e) {
+            console.error("Failed to parse draft", e);
+          }
+        }
+      }
       setActivePageRaw(page);
     }
+  }
+
+  function restoreDraft() {
+    if (pendingDraft) {
+      if (pendingDraft.festival) setFestival(pendingDraft.festival);
+      if (pendingDraft.festivalCustom) setFestivalCustom(pendingDraft.festivalCustom);
+      if (pendingDraft.styleCategory) setStyleCategory(pendingDraft.styleCategory);
+      if (pendingDraft.styleName) setStyleName(pendingDraft.styleName);
+      if (pendingDraft.decorations) setDecorations(pendingDraft.decorations);
+      if (pendingDraft.blessing) setBlessing(pendingDraft.blessing);
+      if (pendingDraft.extraNote) setExtraNote(pendingDraft.extraNote);
+    }
+    setIsDraftPopupOpen(false);
+    setPendingDraft(null);
+  }
+
+  function discardDraft() {
+    localStorage.removeItem('syncheartist_draft');
+    setFestival('生日');
+    setFestivalCustom('');
+    setStyleCategory('character_transform');
+    setStyleName(CHARACTER_STYLES[0]);
+    setDecorations(['生日蛋糕']);
+    setBlessing('');
+    setExtraNote('');
+    setIsDraftPopupOpen(false);
+    setPendingDraft(null);
   }
 
   function handleFestivalChange(value: string) {
@@ -207,6 +291,7 @@ export function usePrototypeViewModel() {
       setHistory((prev) => [item, ...prev])
       setCredits((prev) => prev - estimatedCost)
       setGeneratedShareLink(data.shareLink)
+      localStorage.removeItem('syncheartist_draft');
       setIsPopupOpen(true)
     } catch (err: unknown) {
       const errMsg = err instanceof Error ? err.message : 'Unknown error';
@@ -245,6 +330,10 @@ export function usePrototypeViewModel() {
     setGeneratedShareLink,
     isPopupOpen,
     setIsPopupOpen,
+    isDraftPopupOpen,
+    setIsDraftPopupOpen,
+    restoreDraft,
+    discardDraft,
     isMenuOpen,
     setIsMenuOpen,
     language,
