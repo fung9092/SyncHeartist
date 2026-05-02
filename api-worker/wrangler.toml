@@ -1,0 +1,17 @@
+name = "syncheartist-api"
+main = "src/index.ts"
+compatibility_date = "2024-04-01"
+workers_dev = true
+
+[[d1_databases]]
+binding = "DB"
+database_name = "syncheartist-db"
+database_id = "af601b1b-bb80-45a7-b431-2abfc8bc78df"
+
+[[r2_buckets]]
+binding = "R2"
+bucket_name = "syncheartist-assets"
+
+[[routes]]
+pattern = "api.syncheartist.com"
+custom_domain = true

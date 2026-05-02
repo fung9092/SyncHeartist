@@ -1,0 +1,42 @@
+
+> syncheartist@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.3.2
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.0.148:3000
+   - Environments: .env
+
+ ✓ Starting...
+ ✓ Ready in 1218ms
+ ○ Compiling /api/generate ...
+ ✓ Compiled /api/generate in 789ms (1186 modules)
+Generation Error: PrismaClientValidationError: In order to run Prisma Client on edge runtime, either:
+- Use Prisma Accelerate: https://pris.ly/d/accelerate
+- Use Driver Adapters: https://pris.ly/d/driver-adapters {
+  clientVersion: '6.19.3'
+}
+ POST /api/generate 500 in 963ms
+ ✓ Compiled in 27ms
+ ✓ Compiled /api/generate in 148ms (88 modules)
+Generation Error: Error [PrismaClientKnownRequestError]: 
+Invalid `prisma.creditWallet.create()` invocation:
+
+
+Foreign key constraint violated on the foreign key
+    at async POST (src/app/api/generate/route.ts:37:15)
+  35 |     let wallet = await prisma.creditWallet.findUnique({ where: { userId } });
+  36 |     if (!wallet) {
+> 37 |       wallet = await prisma.creditWallet.create({ data: { userId, balance: 10 } });
+     |               ^
+  38 |     }
+  39 |     
+  40 |     if (wallet.balance < cost) { {
+  code: 'P2003',
+  meta: [Object],
+  clientVersion: '6.19.3'
+}
+ POST /api/generate 500 in 479ms
+R2 Upload Failed in local test, using mock link: Access Denied
+ POST /api/generate 200 in 366ms
+ ✓ Compiled in 22ms
