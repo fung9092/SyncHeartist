@@ -352,8 +352,10 @@ Incorporate these decorations visually using CSS animations, emoji, SVG, or crea
     // Build recipient name instruction
     const recipientInstruction = recipientName ? `\nRECIPIENT: The card is addressed to "${recipientName}". Use this name naturally in the greeting (e.g., "Dear ${recipientName}", "To ${recipientName}", or address them directly in the blessing).` : '';
     // Build language instruction
-    const langCode = cardLanguage === 'en' ? 'en' : 'zh';
-    const languageInstruction = `\nPAGE LANGUAGE: All text content on the generated page MUST be written in ${langCode === 'en' ? 'English' : 'Traditional Chinese (繁體中文)'}. This includes titles, buttons, labels, and the blessing message.`;
+    const langCode = cardLanguage === 'en' ? 'en' : 'zh-TW';
+    const languageInstruction = cardLanguage === 'en'
+      ? `\nPAGE LANGUAGE: All text content on the generated page MUST be written in English. This includes titles, buttons, labels, and the blessing message.`
+      : `\nPAGE LANGUAGE: All text content on the generated page MUST be written in Traditional Chinese (繁體中文). This is Traditional Chinese as used in Hong Kong and Taiwan — NOT Simplified Chinese (简体中文). Every single word, button, label, title, and message must use Traditional Chinese characters. Do NOT use Simplified Chinese under any circumstances.`;
 
     // Build interactive effect instructions
     let interactiveInstructions = '';
@@ -368,7 +370,7 @@ INTERACTIVE EFFECT: ${flipLabel} Card
 ⚠️ CRITICAL: You MUST output a COMPLETE working flip card. Copy the structure below EXACTLY, only changing the content text, colors, and decorations.
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="${langCode}">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -490,14 +492,14 @@ body {
       <h1>REPLACE_WITH_FESTIVAL_TITLE</h1>
       <p style="opacity:0.9;margin-bottom:8px;">REPLACE_WITH_SUBTITLE</p>
       <button class="flip-btn" onclick="document.getElementById('flipCard').classList.add('flipped')">
-        ${interactiveEffect === 'flipOpen' ? '✨ Click to Open ✨' : '🔄 Flip Over'}
+        ${cardLanguage === 'en' ? (interactiveEffect === 'flipOpen' ? '✨ Click to Open ✨' : '🔄 Flip Over') : (interactiveEffect === 'flipOpen' ? '✨ 點擊開啟 ✨' : '🔄 翻轉')}
       </button>
     </div>
     <div class="card-face card-back">
       ${imageUrl ? `<img class="photo" src="${imageUrl}" alt="photo"/>` : ''}
       <p class="blessing">${blessing}</p>
       <button class="flip-btn" onclick="document.getElementById('flipCard').classList.remove('flipped')">
-        ${interactiveEffect === 'flipOpen' ? '← Close' : '🔄 Flip Back'}
+        ${cardLanguage === 'en' ? (interactiveEffect === 'flipOpen' ? '← Close' : '🔄 Flip Back') : (interactiveEffect === 'flipOpen' ? '← 關閉' : '🔄 翻回')}
       </button>
     </div>
   </div>

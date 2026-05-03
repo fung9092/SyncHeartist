@@ -118,7 +118,7 @@ export const locales: Record<string, Record<string, string>> = {
     recipientNamePlaceholder: '例如：小明、老公、媽媽...',
     // Card language
     cardLanguage: '網頁語言',
-    cardLanguageZh: '中文',
+    cardLanguageZh: '繁體中文',
     cardLanguageEn: 'English',
     // Card label
     cardLabel: '網站標記（選填）',
@@ -263,7 +263,7 @@ export const locales: Record<string, Record<string, string>> = {
     recipientNamePlaceholder: 'e.g. John, Honey, Mom...',
     // Card language
     cardLanguage: 'Page Language',
-    cardLanguageZh: '中文',
+    cardLanguageZh: '繁體中文',
     cardLanguageEn: 'English',
     // Card label
     cardLabel: 'Card Label (Optional)',
